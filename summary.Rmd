@@ -1,0 +1,199 @@
+---
+title: "Basic Dataset Exploration"
+output: 
+  md_document:
+    variant: markdown_github
+date: '2022-04-12'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading the data
+
+We just read the train.csv file. This contains a lot of data. We also make some variables to describe the columns of the data set.
+
+```{r}
+matches <- read.csv("matches_train.csv")
+columns <- colnames(matches)
+columns_for_game <- columns[grepl("[0-9]", columns) == FALSE]
+columns_for_prev_game <- columns[grepl("[0-9]", columns) == TRUE]
+unique_cols_for_prev <- unique(gsub("_[0-9]+", "", columns_for_prev_game))
+```
+
+
+## Definitions of Columns
+
+### Per game
+For each game, there is some data about the game itself. 
+
+```{r}
+library(tidyverse)
+columns_for_game
+```
+
+#### id
+
+Just a unique id for the game
+```{r}
+head(matches["id"])
+```
+#### target
+
+The variable you have to predict the probabilities only available in the train set.
+```{r}
+head(matches["target"])
+```
+
+#### home_team_name
+
+Just a unique id for the game
+```{r}
+head(matches["home_team_name"])
+```
+```{r}
+matches %>% count(home_team_name, sort=TRUE) %>% head()
+```
+
+
+#### away_team_name
+
+The name of the Away the team. Hidden in test set, see this discussion
+```{r}
+head(matches["away_team_name"])
+```
+```{r}
+matches %>% count(away_team_name, sort=TRUE) %>% head()
+```
+
+#### match_date
+
+The match date (UTC).
+```{r}
+head(matches["match_date"])
+```
+Use Lubridate to parse the dates from a string.
+```{r}
+library(lubridate)
+dates <- parse_date_time(matches$match_date, "ymdHMS")
+sprintf("earliest date: %s", min(dates))
+sprintf("most recent date: %s", max(dates))
+```
+
+```{r echo=FALSE}
+tibble(val=dates) %>%
+  ggplot(.,aes(val)) +
+    geom_histogram() +
+    labs(title="Number of matches by date", x="date")
+```
+
+#### league_name
+
+The league name.
+```{r}
+head(matches["league_name"])
+```
+
+```{r}
+matches %>% count(league_name, sort=TRUE) %>% head()
+```
+
+#### league_id
+
+The league id. Note that league names can be identical for two different id.
+```{r}
+head(matches["league_id"])
+```
+#### is_cup
+
+If the value is 1 the match is played for a cup competition.
+
+```{r}
+matches %>% count(is_cup, sort=TRUE)
+```
+
+#### home_team_coach_id
+
+The id of the Home team coach.
+```{r}
+head(matches["home_team_coach_id"])
+```
+#### away_team_coach_id
+
+The id of the Away team coach.
+```{r}
+head(matches["away_team_coach_id"])
+```
+
+### History 
+
+For each game there is also data about the last 10 games for both the home and away team. These are the same for both the home and away team, so we'll just look at them for the last game of the home team.
+```{r}
+unique_cols_for_prev
+```
+
+
+#### home_team_history_match_date_1
+
+The date of the last match played by Home team.
+```{r}
+head(matches["home_team_history_match_date_1"])
+```
+#### home_team_history_is_play_home_1
+
+If 1, the Home team played home.
+```{r}
+head(matches["home_team_history_is_play_home_1"])
+```
+
+#### home_team_history_is_cup_1
+
+If 1, the match was a cup competition.
+```{r}
+head(matches["home_team_history_is_cup_1"])
+```
+
+#### home_team_history_goal_1
+
+The number of goals scored by the Home team on its last match.
+```{r}
+head(matches["home_team_history_goal_1"])
+```
+
+#### home_team_history_opponent_goal_1
+
+The number of goals conceded by the Home team on its last match.
+```{r}
+head(matches["home_team_history_opponent_goal_1"])
+```
+
+#### home_team_history_rating_1
+
+The rating of the Home team on its last match (pre match rating).
+```{r}
+head(matches["home_team_history_rating_1"])
+```
+
+#### home_team_history_opponent_rating_1
+
+The rating of the opponent team on Home team last match (pre match rating).
+```{r}
+head(matches["home_team_history_opponent_rating_1"])
+```
+
+#### home_team_history_coach_1
+
+The coach id of the Home team on its last match.
+```{r}
+head(matches["home_team_history_coach_1"])
+```
+
+#### home_team_history_league_id_1
+
+The league name id by the Home team on its last match.
+```{r}
+head(matches["home_team_history_league_id_1"])
+```
+
+

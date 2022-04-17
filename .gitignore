@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+football-match-probability-prediction.zip
+
+test.csv
+train_target_and_scores.csv
+train.csv
+match_res_test.csv
+matches_test.csv
+
+match_res_train.csv
+matches_train.csv
+
+figure/
