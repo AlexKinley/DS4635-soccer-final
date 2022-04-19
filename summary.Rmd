@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 We just read the train.csv file. This contains a lot of data. We also make some variables to describe the columns of the data set.
 
 ```{r}
-matches <- read.csv("matches_train.csv")
+matches <- read.csv("base_train.csv")
 columns <- colnames(matches)
 columns_for_game <- columns[grepl("[0-9]", columns) == FALSE]
 columns_for_prev_game <- columns[grepl("[0-9]", columns) == TRUE]

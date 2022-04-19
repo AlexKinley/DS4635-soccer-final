@@ -13,5 +13,9 @@ matches_test.csv
 
 match_res_train.csv
 matches_train.csv
+base_res_train.csv
+base_train.csv
+base_res_test.csv
+base_test.csv
 
 figure/

@@ -4,7 +4,7 @@ We just read the train.csv file. This contains a lot of data. We also
 make some variables to describe the columns of the data set.
 
 ``` r
-matches <- read.csv("matches_train.csv")
+matches <- read.csv("base_train.csv")
 columns <- colnames(matches)
 columns_for_game <- columns[grepl("[0-9]", columns) == FALSE]
 columns_for_prev_game <- columns[grepl("[0-9]", columns) == TRUE]
@@ -52,10 +52,10 @@ head(matches["id"])
     ##         id
     ## 1 11906497
     ## 2 11983301
-    ## 3 11983471
-    ## 4 11883005
-    ## 5 11974168
-    ## 6 11974170
+    ## 3 11974170
+    ## 4 11974169
+    ## 5 11982841
+    ## 6 11974171
 
 #### target
 
@@ -69,9 +69,9 @@ head(matches["target"])
     ##   target
     ## 1   away
     ## 2   draw
-    ## 3   away
-    ## 4   home
-    ## 5   draw
+    ## 3   home
+    ## 4   away
+    ## 5   home
     ## 6   home
 
 #### home_team_name
@@ -85,22 +85,22 @@ head(matches["home_team_name"])
     ##       home_team_name
     ## 1  Newell's Old Boys
     ## 2              UPNFM
-    ## 3               León
-    ## 4     Cobán Imperial
-    ## 5 Hawke's Bay United
-    ## 6    Team Wellington
+    ## 3    Team Wellington
+    ## 4 Hamilton Wanderers
+    ## 5             Quiché
+    ## 6      Auckland City
 
 ``` r
 matches %>% count(home_team_name, sort=TRUE) %>% head()
 ```
 
     ##   home_team_name  n
-    ## 1     Al Ittihad 81
-    ## 2    River Plate 60
-    ## 3        Rangers 53
-    ## 4         Gorica 52
-    ## 5       Juventus 52
-    ## 6        Al Ahli 51
+    ## 1     Al Ittihad 71
+    ## 2    River Plate 52
+    ## 3       Juventus 47
+    ## 4        Al Ahli 46
+    ## 5        Arsenal 46
+    ## 6         Gorica 44
 
 #### away_team_name
 
@@ -110,25 +110,25 @@ The name of the Away the team. Hidden in test set, see this discussion
 head(matches["away_team_name"])
 ```
 
-    ##      away_team_name
-    ## 1       River Plate
-    ## 2          Marathón
-    ## 3           Morelia
-    ## 4            Iztapa
-    ## 5   Eastern Suburbs
-    ## 6 Canterbury United
+    ##           away_team_name
+    ## 1            River Plate
+    ## 2               Marathón
+    ## 3      Canterbury United
+    ## 4 Wellington Phoenix Res
+    ## 5              Marquense
+    ## 6          Tasman United
 
 ``` r
 matches %>% count(away_team_name, sort=TRUE) %>% head()
 ```
 
     ##   away_team_name  n
-    ## 1     Al Ittihad 71
-    ## 2    River Plate 71
-    ## 3      Liverpool 55
-    ## 4        Olimpia 52
-    ## 5        Rangers 52
-    ## 6        Al Ahli 51
+    ## 1     Al Ittihad 60
+    ## 2    River Plate 59
+    ## 3      Liverpool 47
+    ## 4        Rangers 45
+    ## 5  Real Sociedad 44
+    ## 6        Al Ahli 43
 
 #### match_date
 
@@ -143,8 +143,8 @@ head(matches["match_date"])
     ## 2 2019-12-01 01:00:00
     ## 3 2019-12-01 01:00:00
     ## 4 2019-12-01 01:00:00
-    ## 5 2019-12-01 01:00:00
-    ## 6 2019-12-01 01:00:00
+    ## 5 2019-12-01 02:00:00
+    ## 6 2019-12-01 03:00:00
 
 Use Lubridate to parse the dates from a string.
 
@@ -184,25 +184,25 @@ The league name.
 head(matches["league_name"])
 ```
 
-    ##     league_name
-    ## 1     Superliga
-    ## 2 Liga Nacional
-    ## 3       Liga MX
-    ## 4 Liga Nacional
-    ## 5   Premiership
-    ## 6   Premiership
+    ##        league_name
+    ## 1        Superliga
+    ## 2    Liga Nacional
+    ## 3      Premiership
+    ## 4      Premiership
+    ## 5 Primera Division
+    ## 6      Premiership
 
 ``` r
 matches %>% count(league_name, sort=TRUE) %>% head()
 ```
 
     ##        league_name    n
-    ## 1   Premier League 4711
-    ## 2  Club Friendlies 3163
-    ## 3 Primera Division 2020
-    ## 4     Super League 1317
-    ## 5          3. Liga 1118
-    ## 6          Ligue 1 1019
+    ## 1   Premier League 4011
+    ## 2  Club Friendlies 2703
+    ## 3 Primera Division 1747
+    ## 4     Super League 1118
+    ## 5          3. Liga  950
+    ## 6          Ligue 1  855
 
 #### league_id
 
@@ -216,9 +216,9 @@ head(matches["league_id"])
     ##   league_id
     ## 1       636
     ## 2       734
-    ## 3       743
-    ## 4       705
-    ## 5      1055
+    ## 3      1055
+    ## 4      1055
+    ## 5       708
     ## 6      1055
 
 #### is_cup
@@ -230,8 +230,8 @@ matches %>% count(is_cup, sort=TRUE)
 ```
 
     ##   is_cup     n
-    ## 1  False 86590
-    ## 2   True  7707
+    ## 1  False 73628
+    ## 2   True  6525
     ## 3            1
 
 #### home_team_coach_id
@@ -245,10 +245,10 @@ head(matches["home_team_coach_id"])
     ##   home_team_coach_id
     ## 1             468196
     ## 2            2510608
-    ## 3            1552508
-    ## 4             429958
-    ## 5           37350025
-    ## 6           37347427
+    ## 3           37347427
+    ## 4            5683765
+    ## 5           37252510
+    ## 6            1552285
 
 #### away_team_coach_id
 
@@ -261,10 +261,10 @@ head(matches["away_team_coach_id"])
     ##   away_team_coach_id
     ## 1             468200
     ## 2             456313
-    ## 3             465797
-    ## 4             426870
-    ## 5           37350668
-    ## 6           37348899
+    ## 3           37348899
+    ## 4             517852
+    ## 5           14676834
+    ## 6           37346930
 
 ### History
 
@@ -276,15 +276,16 @@ so we’ll just look at them for the last game of the home team.
 unique_cols_for_prev
 ```
 
-    ##  [1] "home_team_history_match_date"      "home_team_history_is_play_home"   
-    ##  [3] "home_team_history_is_cup"          "home_team_history_goal"           
-    ##  [5] "home_team_history_opponent_goal"   "home_team_history_rating"         
-    ##  [7] "home_team_history_opponent_rating" "home_team_history_coach"          
-    ##  [9] "home_team_history_league_id"       "away_team_history_match_date"     
-    ## [11] "away_team_history_is_play_home"    "away_team_history_is_cup"         
-    ## [13] "away_team_history_goal"            "away_team_history_opponent_goal"  
-    ## [15] "away_team_history_rating"          "away_team_history_opponent_rating"
-    ## [17] "away_team_history_coach"           "away_team_history_league_id"
+    ##  [1] "X.1"                               "home_team_history_match_date"     
+    ##  [3] "home_team_history_is_play_home"    "home_team_history_is_cup"         
+    ##  [5] "home_team_history_goal"            "home_team_history_opponent_goal"  
+    ##  [7] "home_team_history_rating"          "home_team_history_opponent_rating"
+    ##  [9] "home_team_history_coach"           "home_team_history_league_id"      
+    ## [11] "away_team_history_match_date"      "away_team_history_is_play_home"   
+    ## [13] "away_team_history_is_cup"          "away_team_history_goal"           
+    ## [15] "away_team_history_opponent_goal"   "away_team_history_rating"         
+    ## [17] "away_team_history_opponent_rating" "away_team_history_coach"          
+    ## [19] "away_team_history_league_id"
 
 #### home_team_history_match_date_1
 
@@ -297,10 +298,10 @@ head(matches["home_team_history_match_date_1"])
     ##   home_team_history_match_date_1
     ## 1            2019-11-26 00:10:00
     ## 2            2019-11-28 01:15:00
-    ## 3            2019-11-28 01:00:00
-    ## 4            2019-11-27 18:00:00
-    ## 5            2019-11-24 01:00:00
-    ## 6            2019-11-24 01:00:00
+    ## 3            2019-11-24 01:00:00
+    ## 4            2019-11-23 03:30:00
+    ## 5            2019-11-24 02:00:00
+    ## 6            2019-11-23 02:00:00
 
 #### home_team_history_is_play_home_1
 
@@ -345,10 +346,10 @@ head(matches["home_team_history_goal_1"])
     ##   home_team_history_goal_1
     ## 1                        0
     ## 2                        3
-    ## 3                        3
-    ## 4                        1
-    ## 5                        2
-    ## 6                        0
+    ## 3                        0
+    ## 4                        0
+    ## 5                        0
+    ## 6                        3
 
 #### home_team_history_opponent_goal_1
 
@@ -361,10 +362,10 @@ head(matches["home_team_history_opponent_goal_1"])
     ##   home_team_history_opponent_goal_1
     ## 1                                 1
     ## 2                                 1
-    ## 3                                 3
-    ## 4                                 2
-    ## 5                                 2
-    ## 6                                 1
+    ## 3                                 1
+    ## 4                                 4
+    ## 5                                 1
+    ## 6                                 0
 
 #### home_team_history_rating_1
 
@@ -377,10 +378,10 @@ head(matches["home_team_history_rating_1"])
     ##   home_team_history_rating_1
     ## 1                   3.856860
     ## 2                   5.736719
-    ## 3                   5.998800
-    ## 4                   6.295743
-    ## 5                   6.936700
-    ## 6                  11.160533
+    ## 3                  11.160533
+    ## 4                   7.919133
+    ## 5                   4.448714
+    ## 6                  13.014300
 
 #### home_team_history_opponent_rating_1
 
@@ -394,10 +395,10 @@ head(matches["home_team_history_opponent_rating_1"])
     ##   home_team_history_opponent_rating_1
     ## 1                            5.199840
     ## 2                            6.825194
-    ## 3                            5.998800
-    ## 4                            5.535514
-    ## 5                           11.379750
-    ## 6                            3.613117
+    ## 3                            3.613117
+    ## 4                           11.938750
+    ## 5                            8.771536
+    ## 6                            3.311450
 
 #### home_team_history_coach_1
 
@@ -410,10 +411,10 @@ head(matches["home_team_history_coach_1"])
     ##   home_team_history_coach_1
     ## 1                    468196
     ## 2                   2510608
-    ## 3                   1552508
-    ## 4                    429958
-    ## 5                  37350025
-    ## 6                  37347427
+    ## 3                  37347427
+    ## 4                   5683765
+    ## 5                  37252510
+    ## 6                   1552285
 
 #### home_team_history_league_id_1
 
@@ -426,7 +427,7 @@ head(matches["home_team_history_league_id_1"])
     ##   home_team_history_league_id_1
     ## 1                           636
     ## 2                           734
-    ## 3                           743
-    ## 4                           705
-    ## 5                          1055
+    ## 3                          1055
+    ## 4                          1055
+    ## 5                           708
     ## 6                          1055
